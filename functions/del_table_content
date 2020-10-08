@@ -1,0 +1,13 @@
+del_table_content () {
+	read -p 'Insert Database name: ' DB_DEL_TABLE_NAME
+	read -p 'Insert Database table name: ' TABLE_DEL_TABLE_NAME
+
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DB_DEL_TABLE_NAME -e "DELETE FROM $TABLE_DEL_TABLE_NAME;" 2> /dev/null
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DB_DEL_TABLE_NAME -e "DELETE FROM $TABLE_DEL_TABLE_NAME;" >> log/mysql_admin.log
+	if [[ "$?" -eq "0" ]];
+	then
+		echo "Table content successfully deleted!"
+	else
+		echo "Something went wrong..."
+	fi
+}

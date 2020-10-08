@@ -1,0 +1,12 @@
+create_db() {
+	read -p 'Insert database name: ' DB_NAME
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "CREATE DATABASE $DB_NAME CHARACTER SET utf8 COLLATE utf8_bin;" 2> /dev/null
+	mysql -v -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "CREATE DATABASE $DB_NAME CHARACTER SET utf8 COLLATE utf8_bin;" >> log/mysql_admin.log
+
+		if [[ "$?" -eq "0" ]];
+		then
+			echo "Database created successfully!"
+		else
+			echo "Something went wrong..."
+		fi
+}

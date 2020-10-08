@@ -1,0 +1,13 @@
+query () {
+	read -p 'Insert database name: ' QUERY_DB
+	read -p 'Insert query (ex: select * from users;): ' QUERY
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $QUERY_DB -e "$QUERY" > queries.txt 2> /dev/null
+	mysql -v -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $QUERY_DB -e "$QUERY" >> log/mysql_admin.log
+
+	if [[ "$?" -eq "0" ]];
+	then
+		echo "Query success!"
+	else
+		echo "Something went wrong..."
+	fi
+}

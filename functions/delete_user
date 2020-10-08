@@ -1,0 +1,12 @@
+delete_user () {	
+
+	read -p 'Insert user name: ' DROP_USER_NAME
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "DROP USER $DROP_USER_NAME;" 2> /dev/null
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "DROP USER $DROP_USER_NAME;" >> log/mysql_admin.log
+	if [[ "$?" -eq "0" ]];
+	then
+		echo "User $DROP_USER_NAME successfully deleted!"
+	else
+		echo "Something went wrong..."
+	fi
+}

@@ -1,0 +1,39 @@
+create_user () {
+	read -p 'Insert database name: ' DB_NAME
+	read -p 'Insert new user name: ' DB_NEW_USER
+
+	read -s -p 'Insert new user password: ' DB_NEW_PASSWORD
+	echo ""
+	read -p 'Grant user access to all hosts? <y/n> ' YESNO
+
+	if [[ "$YESNO" == "Y" || "$YESNO" == "y" ]];
+	then
+		mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "CREATE USER '$DB_NEW_USER'@'%' IDENTIFIED BY '$DB_NEW_PASSWORD';" 2> /dev/null
+		mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "GRANT ALL PRIVILEGES ON $DB_NAME.* to '$DB_NEW_USER'@'%' ;" 2> /dev/null
+
+		mysql -v -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "CREATE USER '$DB_NEW_USER'@'%' IDENTIFIED BY '$DB_NEW_PASSWORD';" >> log/mysql_admin.log
+		mysql -v -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "GRANT ALL PRIVILEGES ON $DB_NAME.* to '$DB_NEW_USER'@'%' ;" >> log/mysql_admin.log
+			if [[ "$?" -eq "0" ]];
+			then
+				echo "User created successfully!"
+			else
+				echo "Something went wrong..."
+			fi
+	else
+		read -p 'Insert host IP to give access: ' HOST_IP
+		mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "CREATE USER '$DB_NEW_USER'@'$HOST_IP' IDENTIFIED BY '$DB_NEW_PASSWORD';" 2> /dev/null
+		mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "GRANT ALL PRIVILEGES ON $DB_NAME.* to '$DB_NEW_USER'@'$HOST_IP' ;" 2> /dev/null
+
+		mysql -v -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "CREATE USER '$DB_NEW_USER'@'$HOST_IP' IDENTIFIED BY '$DB_NEW_PASSWORD';" >> log/mysql_admin.log
+		mysql -v -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "GRANT ALL PRIVILEGES ON $DB_NAME.* to '$DB_NEW_USER'@'$HOST_IP' ;" >> log/mysql_admin.log
+			if [[ "$?" -eq "0" ]];
+			then
+				echo "User created successfully!"
+			else
+				echo "Something went wrong..."
+				echo "Check that you have user with grant option."
+				echo "Go to mysql and write: grant all privileges on *.* to $DB_USER identified by $DB_PASS with grant option;"
+			fi
+	fi
+
+}

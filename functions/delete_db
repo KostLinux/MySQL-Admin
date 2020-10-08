@@ -1,0 +1,13 @@
+delete_db () {	
+
+	read -p 'Insert database name: ' DROP_DB_NAME
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "DROP DATABASE $DROP_DB_NAME;" 2> /dev/null
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "DROP DATABASE $DROP_DB_NAME;" >> log/mysql_admin.log
+
+	if [[ "$?" -eq "0" ]];
+	then
+		echo "Database $DROP_DB_NAME successfully deleted!"
+	else
+		echo "Something went wrong..."
+	fi
+}

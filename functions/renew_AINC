@@ -1,0 +1,14 @@
+renew_AINC () {
+	read -p 'Insert database name: ' AUTO_INC_DB
+	read -p "Insert database $AUTO_INC_DB table name: " AUTO_INC_TABLE
+		mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $AUTO_INC_DB -e "ALTER TABLE $AUTO_INC_TABLE AUTO_INCREMENT = 1 ;" 2> /dev/null
+		mysql -v -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $AUTO_INC_DB -e "ALTER TABLE $AUTO_INC_TABLE AUTO_INCREMENT = 1 ;" >> log/mysql_admin.log
+
+	if [[ "$?" -eq "0" ]];
+	then
+		echo "AUTO_INCREMENTAL Successfully renewed!"
+	else
+		echo "Something went wrong..."
+	fi
+
+}

@@ -1,0 +1,26 @@
+export_db () {
+	read -p 'Insert path to save .sql file (ex: /dev/data): ' SAVEDATA
+	read -p 'Insert database name: ' DB_EXPORT_NAME
+	if [[ -d "$SAVEDATA" ]];
+	then
+			mysqldump -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_EXPORT_NAME > "$SAVEDATA/backup.sql" 2> /dev/null
+			mysqldump -v -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_EXPORT_NAME > "$SAVEDATA/backup.sql" >> log/mysql_admin.log
+
+				if [[ "$?" -eq "0" ]];
+				then
+					echo "Database exported successfully!"
+				else
+					echo "Something went wrong..."
+				fi
+	else
+		echo "Path $SAVEDATA doesn't exist!"
+		read -p 'Make it? <y/n> ' ASKMAKE
+			if [[ "$ASKMAKE" == "Y" || "$ASKMAKE" == "y" ]];
+			then
+				mkdir -p $SAVEDATA
+				mysqldump -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_EXPORT_NAME > "$SAVEDATA/backup.sql" 2> /dev/null
+				mysqldump -v -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT $DB_EXPORT_NAME > "$SAVEDATA/backup.sql" >> log/mysql_admin.log
+
+			fi
+	fi
+}
