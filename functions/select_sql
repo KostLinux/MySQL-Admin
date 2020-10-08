@@ -1,0 +1,13 @@
+select_sql(){
+		read -p 'Insert database name: ' DB_SELECT_NAME
+		read -p "Insert database $DB_SELECT_NAME table: " DB_SELECT_TABLE
+		read -p 'Insert SELECT Query column (by default *): ' DB_SELECT_COLUMN
+		if [[ $DB_SELECT_COLUMN == "" ]];
+		then
+			DB_SELECT_COLUMN="*"
+		fi
+
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DB_SELECT_NAME -e "SELECT $DB_SELECT_COLUMN FROM $DB_SELECT_TABLE ;" 2> /dev/null
+	mysql -v -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DB_SELECT_NAME -e "SELECT $DB_SELECT_COLUMN FROM $DB_SELECT_TABLE ;" >> log/mysql_admin.log
+
+}

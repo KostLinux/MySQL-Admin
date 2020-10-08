@@ -1,0 +1,15 @@
+renew_pass(){
+
+	read -p 'Insert username: ' MDB_USER
+	read -p "Insert host of $MDB_USER (ex: % or localhost): " MDB_HOST
+	read -s -p "Insert new password for user $MDB_USER: " MDB_PASS
+			mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "SET PASSWORD FOR '$MDB_USER'@'$MDB_HOST' = PASSWORD('$MDB_PASS');';" 2> /dev/null
+			mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -e "SET PASSWORD FOR '$MDB_USER'@'$MDB_HOST' = PASSWORD('$MDB_PASS');" >> log/mysql_admin.log
+			if [[ "$?" -eq "0" ]];
+			then
+				echo "User created successfully!"
+			else
+				echo "Something went wrong..."
+			fi
+
+}

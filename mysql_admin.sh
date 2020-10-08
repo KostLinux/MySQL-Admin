@@ -5,6 +5,7 @@ then
 	exit
 fi
 
+echo "" > log/mysql_admin.log
 source functions/create_db
 source functions/create_user
 source functions/import_db
@@ -14,6 +15,9 @@ source functions/delete_user
 source functions/export_db
 source functions/del_table_content
 source functions/query
+source functions/renew_pass
+source functions/select_sql
+
 CHARS="/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|"
 echo 'Please write MySQL / MariaDB Database Connection Info.'
 read -p 'Database Host: ' DB_HOST
@@ -36,25 +40,25 @@ if [[ "$?" -eq "0" ]];
 then
 	echo ""
 	echo "Connection to $DB_HOST succeeded!"
-	echo "" > log/mysql_admin.log
 		for (( i = 1 ; i <= 50 ; i++ ));
 		do
 		    	echo -en "Opening MySQL / MariaDB Admin Menu... ${CHARS:$i:1} \r"
 		    	sleep 0.1
 		done
-	while true
-	do
+#	while true
+#	do
 	echo ""
 	sleep 1
 	clear
 	#TITLE
 	figlet -c "MySQL / MariaDB Admin Tool"
 	#Options
-	echo -e "1) Create Database\t\t 5) Delete Database"
-	echo -e "2) Create User\t\t\t 6) Delete User"
-	echo -e "3) Import Database\t\t 7) Export Database"
-	echo -e "4) Renew AUTO_INCREMENTAL\t 8) Delete table content"
-	echo -e "\t 			 9) SQL Query"
+	echo -e "1) Create Database\t\t 6) Delete Database"
+	echo -e "2) Create User\t\t\t 7) Delete User"
+	echo -e "3) Import Database\t\t 8) Export Database"
+	echo -e "4) Renew AUTO_INCREMENTAL\t 9) Delete table content"
+	echo -e "5) Create new password for user 10) SQL SELECT Query"
+	echo -e "\t 			11) Custom SQL Query"
 	echo ""
 	echo 'If you choose SQL Query, then all queries will be saved in queries.txt file'
 	#USER INPUT
@@ -71,15 +75,19 @@ then
 
 	        4) renew_AINC ;;
 
-			5) delete_db ;;
+			5) renew_pass ;;
 
-			6) delete_user ;;
+			6) delete_db ;;
 
-			7) export_db ;;
+			7) delete_user ;;
 
-			8) del_table_content ;;
+			8) export_db ;;
+
+			9) del_table_content ;;
 	        
-	        9) query ;;
+			10) select_sql ;;
+
+	        11) query ;;
 
 			exit) exit ;;
 
@@ -87,7 +95,7 @@ then
 	
 	esac
 		sed -i "s/${DB_PASS}/wQGCHUAnydc63pGy2FxANy6JNm4mhNGn/g" log/mysql_admin.log
-	done
+#	done
 else
 	echo ""
 	echo "Connection failed!"
