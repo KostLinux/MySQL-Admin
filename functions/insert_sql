@@ -1,0 +1,49 @@
+insert_sql () {
+	
+	read -p 'Insert database name: ' DATABASE_INSERT_NAME
+	read -p "Insert database $DATABASE_INSERT_NAME table name: " TABLE_INSERT_NAME
+	
+	#IF files are empty - exit
+
+	if [[ ! -s mysql/columns/column_names.txt || ! -s mysql/columns/column_values.txt ]];
+	then
+		echo "Column files are empty. Exiting..."
+		exit
+	fi
+	
+	#Loop over existing files
+
+	FOR_COLUMN_NAMES=$(cat mysql/columns/column_names.txt | wc -l)
+	FOR_COLUMN_VALUES=$(cat mysql/columns/column_values.txt | wc -l)
+	
+	for (( i = 1 ; i <= FOR_COLUMN_NAMES ; i++ ));
+	do
+		EACH_COLUMN_NAME=$(cat mysql/columns/column_names.txt | head -$i | tail -1)
+	#	echo -n -e "\`$EACH_COLUMN_NAME\`, " >> column_names.txt
+		echo -n -e "$EACH_COLUMN_NAME," >> column_names.txt
+	done
+
+	for (( i = 1 ; i <= FOR_COLUMN_VALUES ; i++ ));
+	do
+		EACH_COLUMN_VALUE=$(cat mysql/columns/column_values.txt | head -$i | tail -1)
+		echo -n -e "'$EACH_COLUMN_VALUE', " >> column_values.txt
+		#echo -n -e "$EACH_COLUMN_VALUE," >> column_values.txt
+	done
+	
+	#REMOVE LAST COMMAS
+	sed -i 's/.$//' column_names.txt
+	sed -i 's/..$//' column_values.txt
+	COLUMN_NAMES=$(cat column_names.txt | head -1)
+	COLUMN_VALUES=$(cat column_values.txt | head -1)
+	
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE_INSERT_NAME -e "INSERT INTO $TABLE_INSERT_NAME ($COLUMN_NAMES) VALUES ($COLUMN_VALUES);"
+			if [[ "$?" -eq "0" ]];
+			then
+				echo "Information inserted successfully!"
+			else
+				echo "Something went wrong..."
+				exit
+			fi
+	rm -rf mysql/columns/column_names.txt mysql/columns/column_values.txt && touch mysql/columns/column_names.txt mysql/columns/column_values.txt
+	rm -rf column_names.txt column_values.txt
+}
