@@ -4,8 +4,8 @@ MySQL / MariaDB administration tool to simplify routine job.
 # Features
 - Create/Drop/Import/Export databases 
 - Create/Drop users
-- Insert Information into databases
-- Create new password for user
+- Insert unlimited amount information into databases
+- Create new password for users
 - Renew AUTO_INCREMENT columns 
 - Delete table content
 - Automated SELECT Query
