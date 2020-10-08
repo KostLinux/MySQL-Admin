@@ -1,6 +1,12 @@
 # MySQL Admin Tool
 
-MySQL / MariaDB administration tool, to create/drop/import/export databases, create/drop users, renew AUTO_INCREMENT columns, delete table content and use SQL Queries.
+MySQL / MariaDB administration tool.
+# Features
+- create/drop/import/export databases 
+- create/drop users 
+- renew AUTO_INCREMENT columns 
+- delete table content
+- use your own SQL Queries.
 
 ## Installation
 
