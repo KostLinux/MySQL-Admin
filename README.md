@@ -21,7 +21,13 @@ git clone https://github.com/KostLinux/MySQL-Admin/
 ```
 bash configure.sh
 ```
-*NB!* If you want to use insert tool, you need to insert information to mysql/columns/column_names.txt mysql/columns/column_values.txt. *AUTO_INCREMENT VALUES ARE NOT NEEDED!* If you inserted password, then use chmod 600 to these files.
+**NB!** If you want to use insert tool, you need to insert information to 
+- mysql/columns/column_names.txt 
+- mysql/columns/column_values.txt 
+
+**AUTO_INCREMENT VALUES ARE NOT NEEDED!** 
+
+**If you inserted password, then use chmod 600 to these files.**
 
 EXAMPLE:
 ```
