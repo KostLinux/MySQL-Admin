@@ -1,6 +1,6 @@
 # MySQL Admin Tool
 
-MySQL / MariaDB administration tool to simplify routine job.
+MySQL / MariaDB administration tool to simplify routine jobs.
 # Features
 - Create/Drop/Import/Export databases 
 - Create/Drop users
