@@ -1,6 +1,7 @@
 # MySQL Admin Tool
 
-MySQL / MariaDB administration tool to simplify routine jobs.
+MySQL / MariaDB administration tool.
+
 # Features
 - Create/Drop/Import/Export databases 
 - Create/Drop users
@@ -11,17 +12,22 @@ MySQL / MariaDB administration tool to simplify routine jobs.
 - Automated SELECT Query
 - Use your own SQL Queries
 
-## Installation
+# Installation
 
-### Clone repository
+## Clone repository
 ```
 git clone https://github.com/KostLinux/MySQL-Admin/
 ```
-### Start the configuration script
+## Start the configuration script
 ```
 bash configure.sh
 ```
-**NB!** If you want to use insert tool, you need to insert information to 
+
+## Start MySQL Admin Tool
+```
+mysql-admin
+```
+**Note:** If you want to use insert tool, you need to insert information to 
 - mysql/columns/column_names.txt 
 - mysql/columns/column_values.txt 
 
@@ -46,11 +52,6 @@ testing_mail
 53932422
 
 # chmod 600 mysql/columns/column_{names,values}.txt
-```
-
-### Start MySQL Admin Tool
-```
-mysql-admin
 ```
 
 # Author
