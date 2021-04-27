@@ -6,6 +6,7 @@ then
 fi
 
 echo "" > log/mysql_admin.log
+#source functions/{create_db,create_user,import_db,renew_AINC,delete_db,delete_user,export_db,del_table_content,query,renew_pass,select_sql,insert_sql}
 source functions/create_db
 source functions/create_user
 source functions/import_db
